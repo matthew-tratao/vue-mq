@@ -1,54 +1,71 @@
-import { subscribeToMediaQuery, convertBreakpointsToMediaQueries, transformValuesFromBreakpoints } from './helpers.js'
-import MqLayout from './component.js'
+import {
+  subscribeToMediaQuery,
+  convertBreakpointsToMediaQueries,
+  transformValuesFromBreakpoints
+} from "./helpers.js";
+import MqLayout from "./component.js";
 
 const DEFAULT_BREAKPOINT = {
   sm: 450,
   md: 1250,
-  lg: Infinity,
-}
+  lg: Infinity
+};
 
-const install = function (Vue, { breakpoints = DEFAULT_BREAKPOINT, defaultBreakpoint = 'sm' } = {}) {
-  let hasSetupListeners = false
+const install = function(
+  Vue,
+  { breakpoints = DEFAULT_BREAKPOINT, defaultBreakpoint = "sm" } = {}
+) {
+  let hasSetupListeners = false;
   // Init reactive component
   const reactorComponent = new Vue({
     data: () => ({
-      currentBreakpoint: defaultBreakpoint,
+      currentBreakpoint: defaultBreakpoint
     }),
 
     methods: {
       setPoint(mq) {
-        this.currentBreakpoint = mq
+        const vm = this
+        Vue.nextTick(function() {
+          vm.currentBreakpoint = mq;
+        });
       }
     }
-  })
-  Vue.filter('mq', (currentBreakpoint, values) => {
-    return transformValuesFromBreakpoints(Object.keys(breakpoints), values, currentBreakpoint)
-  })
+  });
+  Vue.filter("mq", (currentBreakpoint, values) => {
+    return transformValuesFromBreakpoints(
+      Object.keys(breakpoints),
+      values,
+      currentBreakpoint
+    );
+  });
   Vue.mixin({
     computed: {
       $mq() {
-        return reactorComponent.currentBreakpoint
-      },
+        return reactorComponent.currentBreakpoint;
+      }
     },
-    created () {
-      if (this.$isServer) reactorComponent.currentBreakpoint = defaultBreakpoint
+    created() {
+      if (this.$isServer)
+        reactorComponent.currentBreakpoint = defaultBreakpoint;
     },
     mounted() {
       if (!hasSetupListeners) {
-        const mediaQueries = convertBreakpointsToMediaQueries(breakpoints)
+        const mediaQueries = convertBreakpointsToMediaQueries(breakpoints);
         // setup listeners
         for (const key in mediaQueries) {
-          const mediaQuery = mediaQueries[key]
-          const enter = () => { reactorComponent.currentBreakpoint = key }
-          subscribeToMediaQuery(mediaQuery, enter)
+          const mediaQuery = mediaQueries[key];
+          const enter = () => {
+            reactorComponent.currentBreakpoint = key;
+          };
+          subscribeToMediaQuery(mediaQuery, enter);
         }
-        hasSetupListeners = true
+        hasSetupListeners = true;
       }
     }
-  })
-  Vue.prototype.$mqAvailableBreakpoints = breakpoints
-  Vue.prototype.$setPoint = reactorComponent.setPoint
-  Vue.component('MqLayout', MqLayout)
-}
+  });
+  Vue.prototype.$mqAvailableBreakpoints = breakpoints;
+  Vue.prototype.$setPoint = reactorComponent.setPoint;
+  Vue.component("MqLayout", MqLayout);
+};
 
-export default { install }
+export default { install };

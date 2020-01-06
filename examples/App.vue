@@ -13,21 +13,21 @@
         <prism language="html" code="&lt;mq-layout mq=&quot;['sm', 'lg']&quot;&gt; sm and lg &lt;/mq-layout&gt;"/>
       </mq-layout>
     </div>
-    <button @click="setMQ">set MQ to sm</button>
+    <!-- <button @click="setMQ">set MQ to sm</button> -->
   </div>
 </template>
 
 <script>
-export default {
-  components: {
-    Prism: window.PrismComponent,
-  },
+import Vue from 'vue'
 
-  methods: {
-    setMQ() {
-      this.$setPoint('sm')
-    }
-  }
+export default {
+	components: {
+		Prism: window.PrismComponent
+	},
+
+	beforeCreate() {
+		Vue.prototype.$setPoint('sm')
+	}
 }
 </script>
 

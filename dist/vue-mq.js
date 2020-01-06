@@ -187,7 +187,7 @@
         _ref$breakpoints = _ref.breakpoints,
         breakpoints = _ref$breakpoints === void 0 ? DEFAULT_BREAKPOINT : _ref$breakpoints,
         _ref$defaultBreakpoin = _ref.defaultBreakpoint,
-        defaultBreakpoint = _ref$defaultBreakpoin === void 0 ? 'sm' : _ref$defaultBreakpoin;
+        defaultBreakpoint = _ref$defaultBreakpoin === void 0 ? "sm" : _ref$defaultBreakpoin;
 
     var hasSetupListeners = false; // Init reactive component
 
@@ -199,11 +199,14 @@
       },
       methods: {
         setPoint: function setPoint(mq) {
-          this.currentBreakpoint = mq;
+          var vm = this;
+          Vue.nextTick(function () {
+            vm.currentBreakpoint = mq;
+          });
         }
       }
     });
-    Vue.filter('mq', function (currentBreakpoint, values) {
+    Vue.filter("mq", function (currentBreakpoint, values) {
       return transformValuesFromBreakpoints(Object.keys(breakpoints), values, currentBreakpoint);
     });
     Vue.mixin({
@@ -239,7 +242,7 @@
     });
     Vue.prototype.$mqAvailableBreakpoints = breakpoints;
     Vue.prototype.$setPoint = reactorComponent.setPoint;
-    Vue.component('MqLayout', component);
+    Vue.component("MqLayout", component);
   };
 
   var index = {
