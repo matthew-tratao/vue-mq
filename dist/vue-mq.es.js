@@ -174,7 +174,7 @@ var install = function install(Vue) {
     }
   });
   Vue.prototype.$mqAvailableBreakpoints = breakpoints;
-  Vue.prototype.$setPoint = reactorComponent.setPoint(mq);
+  Vue.prototype.$setPoint = reactorComponent.setPoint;
   Vue.component('MqLayout', component);
 };
 

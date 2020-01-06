@@ -47,7 +47,7 @@ const install = function (Vue, { breakpoints = DEFAULT_BREAKPOINT, defaultBreakp
     }
   })
   Vue.prototype.$mqAvailableBreakpoints = breakpoints
-  Vue.prototype.$setPoint = reactorComponent.setPoint(mq)
+  Vue.prototype.$setPoint = reactorComponent.setPoint
   Vue.component('MqLayout', MqLayout)
 }
 
