@@ -13,6 +13,7 @@
         <prism language="html" code="&lt;mq-layout mq=&quot;['sm', 'lg']&quot;&gt; sm and lg &lt;/mq-layout&gt;"/>
       </mq-layout>
     </div>
+    <button @click="setMQ">set MQ to sm</button>
   </div>
 </template>
 
@@ -21,6 +22,12 @@ export default {
   components: {
     Prism: window.PrismComponent,
   },
+
+  methods: {
+    setMQ() {
+      this.$setPoint('sm')
+    }
+  }
 }
 </script>
 

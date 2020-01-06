@@ -7,13 +7,19 @@ const DEFAULT_BREAKPOINT = {
   lg: Infinity,
 }
 
-const install = function (Vue, { breakpoints = DEFAULT_BREAKPOINT, defaultBreakpoint = 'sm' } = {}) {  
+const install = function (Vue, { breakpoints = DEFAULT_BREAKPOINT, defaultBreakpoint = 'sm' } = {}) {
   let hasSetupListeners = false
   // Init reactive component
   const reactorComponent = new Vue({
     data: () => ({
       currentBreakpoint: defaultBreakpoint,
-    })
+    }),
+
+    methods: {
+      setPoint(mq) {
+        this.currentBreakpoint = mq
+      }
+    }
   })
   Vue.filter('mq', (currentBreakpoint, values) => {
     return transformValuesFromBreakpoints(Object.keys(breakpoints), values, currentBreakpoint)
@@ -37,6 +43,11 @@ const install = function (Vue, { breakpoints = DEFAULT_BREAKPOINT, defaultBreakp
           subscribeToMediaQuery(mediaQuery, enter)
         }
         hasSetupListeners = true
+      }
+    },
+    methods: {
+      $setPoint(mq) {
+        reactorComponent.setPoint(mq)
       }
     }
   })
