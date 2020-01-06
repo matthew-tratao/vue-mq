@@ -196,6 +196,11 @@
         return {
           currentBreakpoint: defaultBreakpoint
         };
+      },
+      methods: {
+        setPoint: function setPoint(mq) {
+          this.currentBreakpoint = mq;
+        }
       }
     });
     Vue.filter('mq', function (currentBreakpoint, values) {
@@ -229,6 +234,11 @@
           }
 
           hasSetupListeners = true;
+        }
+      },
+      methods: {
+        $setPoint: function $setPoint(mq) {
+          reactorComponent.setPoint(mq);
         }
       }
     });

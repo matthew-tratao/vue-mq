@@ -132,6 +132,11 @@ var install = function install(Vue) {
       return {
         currentBreakpoint: defaultBreakpoint
       };
+    },
+    methods: {
+      setPoint: function setPoint(mq) {
+        this.currentBreakpoint = mq;
+      }
     }
   });
   Vue.filter('mq', function (currentBreakpoint, values) {
@@ -165,6 +170,11 @@ var install = function install(Vue) {
         }
 
         hasSetupListeners = true;
+      }
+    },
+    methods: {
+      $setPoint: function $setPoint(mq) {
+        reactorComponent.setPoint(mq);
       }
     }
   });
